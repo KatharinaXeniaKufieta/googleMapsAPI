@@ -1,4 +1,8 @@
 var map;
+
+// Create new blank arrays for all the listing markers
+var markers = [];
+
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
@@ -26,14 +30,13 @@ function initMap() {
      description: 'Amazing food in a flea market style flair.'},
     {title: 'The Cliffs at LIC',
      location: {lat: 40.748649, lng: -73.948733},
-     description: 'Best climbing in the town. Very crowded, but hey it is NYC.'}
+     description: 'Best climbing in the town. Very crowded, but hey it is NYC.'},
+    {title: 'Champs',
+     location: {lat: 40.70844, lng: -73.9409},
+     description: 'Best vegan diner.'}
   ];
 
-  // Create new blank arrays for all the listing markers
-  var markers = [];
-
   var largeInfowindow = new google.maps.InfoWindow();
-  var bounds = new google.maps.LatLngBounds();
 
   // The following group uses the location array to create an
   // array of markers on initialize
@@ -46,7 +49,6 @@ function initMap() {
     // into markers array
     var marker = new google.maps.Marker({
       position: position,
-      map: map,
       title: title,
       animation: google.maps.Animation.DROP,
       id: i,
@@ -55,14 +57,15 @@ function initMap() {
 
     // Push the marker to our array of markers
     markers.push(marker);
-    bounds.extend(marker.position);
 
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
     });
-    map.fitBounds(bounds);
   }
+
+  document.getElementById('show-listings').addEventListener('click', showListings);
+  document.getElementById('hide-listings').addEventListener('click', hideListings);
 
   // This function populates the infowindow when the markers is clicked. We'll only allow one infowindow which will open at the marker that is clicked, and populate based on that markers position.
   function populateInfoWindow(marker, infowindow) {
@@ -73,8 +76,26 @@ function initMap() {
       infowindow.open(map, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
-        infowindow.setMarker(null);
+        infowindow.marker = null;
       });
+    }
+  }
+
+  // This function will loop through the markers array and display them all
+  function showListings() {
+    var bounds = new google.maps.LatLngBounds();
+    // Extend the boundaries of the map for each marker and display the marker
+    for (var i = 0, max = markers.length; i < max; i++) {
+      markers[i].setMap(map);
+      bounds.extend(markers[i].position);
+    }
+    map.fitBounds(bounds);
+  }
+
+  // This function will loop through the listings and hide them all
+  function hideListings() {
+    for (var i = 0, max = markers.length; i < max; i++) {
+      markers[i].setMap(null);
     }
   }
 }
