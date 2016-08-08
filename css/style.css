@@ -45,3 +45,7 @@ h1 {
   text-align: left;
   width: 340px;
 }
+
+.infowindow-image {
+  max-width: 300px !important;
+}

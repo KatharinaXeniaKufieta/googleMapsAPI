@@ -15,25 +15,32 @@ function initMap() {
   var locations = [
     {title: 'Variety',
      location: {lat: 40.715407, lng: -73.944341},
-     description: 'Best coffee ever. Not sure I can live without it any more!'},
+     description: 'My fav coffee. Not sure I can live without it any more!',
+     descriptionImage: 'http://i.giphy.com/YU0HoCQidyGEE.gif'},
     {title: 'Momo Sushi Shack',
      location: {lat: 40.70512, lng: -73.933463},
-     description: 'Best sushi ever. You will never look at sushi the same way again.'},
+     description: 'Best sushi ever. You will never look at sushi the same way again.',
+     descriptionImage: 'http://i.giphy.com/X2QBmjCQAHtle.gif'},
     {title: 'David Barton Gym',
      location: {lat: 40.740404, lng: -73.993308},
-     description: 'A gym within a church! Working out has just gotten more spiritual and beautiful. Worship to the gods of fitness.'},
+     description: 'A gym within a church! Working out has just gotten more spiritual and beautiful.',
+     descriptionImage: 'http://i.giphy.com/hlh2xvhZOfzji.gif'},
     {title: 'Cafe Mogador Williamsburg',
      location: {lat: 40.719726, lng: -73.959983},
-     description: 'Best maroccan restaurant. Try the lamb tagine!'},
+     description: 'My fav maroccan restaurant. Try the lamb tagine!',
+     descriptionImage: 'http://i.giphy.com/l0O9yqyFbuxZoBifu.gif'},
     {title: 'Smorgasburg',
      location: {lat: 40.72102, lng: -73.962178},
-     description: 'Amazing food in a flea market style flair.'},
+     description: 'Amazing food in a flea market style flair.',
+     descriptionImage: 'http://i.giphy.com/3F3QVLy3w6OfC.gif'},
     {title: 'The Cliffs at LIC',
      location: {lat: 40.748649, lng: -73.948733},
-     description: 'Best climbing in the town. Very crowded, but hey it is NYC.'},
+     description: 'Awesome climbing gym.',
+     descriptionImage: 'http://i.giphy.com/NotDYMTH9HUiI.gif'},
     {title: 'Champs',
      location: {lat: 40.70844, lng: -73.9409},
-     description: 'Best vegan diner.'}
+     description: 'My fav vegan diner.',
+     descriptionImage: 'http://i.giphy.com/jKaFXbKyZFja0.gif'}
   ];
 
   var largeInfowindow = new google.maps.InfoWindow();
@@ -45,6 +52,7 @@ function initMap() {
     var position = locations[i].location;
     var title = locations[i].title;
     var description = locations[i].description;
+    var descriptionImage = locations[i].descriptionImage;
     // Create a new marker per location, and put
     // into markers array
     var marker = new google.maps.Marker({
@@ -52,7 +60,8 @@ function initMap() {
       title: title,
       animation: google.maps.Animation.DROP,
       id: i,
-      description: description
+      description: description,
+      descriptionImage: descriptionImage
     });
 
     // Push the marker to our array of markers
@@ -72,7 +81,7 @@ function initMap() {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
       infowindow.marker = marker;
-      infowindow.setContent('<div>' + marker.description + '</div>');
+      infowindow.setContent('<img class="infowindow-image" src="' + marker.descriptionImage + '"><div>' + marker.description + '</div>');
       infowindow.open(map, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
