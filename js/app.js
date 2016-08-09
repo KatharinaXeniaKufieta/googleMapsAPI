@@ -4,10 +4,15 @@ var map;
 var markers = [];
 
 function initMap() {
+  // Create a styles array to use with the map
+  // var styles = JSON.parse(pinkMap.json);
+
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 40.7413549, lng: -73.9980244},
-    zoom: 14
+    zoom: 14,
+    styles: styles,
+    mapTypeControl: false
   });
 
   // These are locations shown to the user. Normally
@@ -61,6 +66,13 @@ function initMap() {
   ];
 
   var largeInfowindow = new google.maps.InfoWindow();
+
+  // Style the markers a bit.
+  var defaultIcon = makeMarkerIcon('0091ff');
+
+  // Create a "highlighted location" marker color for when the user
+  // mouses over the marker
+  var highlightedIcon = makeMarkerIcon('FFFF24');
 
   // The following group uses the location array to create an
   // array of markers on initialize
@@ -125,5 +137,13 @@ function initMap() {
     for (var i = 0, max = markers.length; i < max; i++) {
       markers[i].setMap(null);
     }
+  }
+
+  // This function takes in a COLOR, and then creates a new marker icon
+  // of that color. The icon will be 21 px wide by 34 high, have an
+  // origin of 0, 0 and be anchored at 10, 34
+  function makeMarkerIcon(markerColor) {
+    var markerImage = new google.maps.MarkerImage(
+    'http://chart.googleapis.com/chart?chst=d_map_spin&child=1.15')
   }
 }
