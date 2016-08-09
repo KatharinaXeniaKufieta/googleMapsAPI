@@ -49,3 +49,12 @@ h1 {
 .infowindow-image {
   max-width: 300px !important;
 }
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
+
+.text {
+  font-size: 12px;
+}
