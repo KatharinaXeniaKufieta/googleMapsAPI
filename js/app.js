@@ -250,6 +250,7 @@ function initMap() {
   // only the ones within it. This is so that the user can specify
   // an exact area of search.
   function searchWithinPolygon() {
+    console.log("Area in polygon: " + google.maps.geometry.spherical.computeArea(polygon.getPath()));
     for (var i = 0; i < markers.length; i++) {
       if (google.maps.geometry.poly.containsLocation(markers[i].position, polygon)) {
         markers[i].setMap(map);
