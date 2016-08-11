@@ -7,6 +7,9 @@ var markers = [];
 // This global polygon variable is to ensure only ONE polygon is rendered
 var polygon = null;
 
+// Make sure this function is globally available
+var displayDirections = function() {};
+
 function initMap() {
   // Create a styles array to use with the map
   // var styles = JSON.parse(pinkMap.json);
@@ -336,6 +339,7 @@ function initMap() {
     }
   }
 
+
   // This function will go through each of the results, and,
   // if the distance is LESS than the value in the picker, show it on
   // the map
@@ -369,7 +373,10 @@ function initMap() {
             // Create a mini infowindow to open immediately and contain the
             // distance and duration
             var infowindow = new google.maps.InfoWindow({
-              content: durationText + ' away, ' + distanceText
+              content: durationText + ' away, ' + distanceText +
+                '<div><input type="button" value="View Route" onclick=' +
+                '"displayDirections(&quot;' + origins[i] +
+                '&quot;);"></input></div>'
             });
             infowindow.open(map, markers[i]);
             // Put this in so that this small window closes if the user
@@ -383,5 +390,40 @@ function initMap() {
         }
       }
     }
+    if (!atLeastOne) {
+      window.alert('We could not find any locations within that distance!');
+    }
+  }
+
+  // This function is in response to the user selecting "show route" on one
+  // of the markers within the calculated distance. This will display
+  // the route on the map.
+  displayDirections = function(origin) {
+    hideListings();
+    var directionsService = new google.maps.DirectionsService;
+    // Get the destination address from the user entered value
+    var destinationAddress = document.getElementById('search-within-time-text').value;
+    // Get mode again from the user entered value
+    var mode = document.getElementById('mode').value;
+    directionsService.route({
+      // The origin is the passed in marker's position
+      origin: origin,
+      // The destination is user entered address
+      destination: destinationAddress,
+      travelMode: google.maps.TravelMode[mode]
+    }, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+          map: map,
+          directions: response,
+          draggable: true,
+          polylineOptions: {
+            strokeColor: 'green'
+          }
+        });
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
   }
 }
