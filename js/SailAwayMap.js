@@ -2,7 +2,8 @@ var styles = [
   {
     "featureType": "water",
     "stylers": [
-      { "color": "#89C9BC" }
+      { "color": "#89C9BC" },
+      { "lightness": "35" }
     ]
   },{
     "featureType": "landscape",
