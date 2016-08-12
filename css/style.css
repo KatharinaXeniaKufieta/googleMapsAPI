@@ -62,6 +62,11 @@ hr {
   height: 200px;
 }
 
+#places-search,
+#search-within-time-text {
+  width: 84%;
+}
+
 #search-within-time-text {
   width: 84%;
 }
